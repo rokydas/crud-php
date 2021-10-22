@@ -160,4 +160,29 @@
             return false;
         }
 
+        // Delete post
+        public function delete() {
+            // create query
+            $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+
+            // prepare statement
+            $stmt = $this->conn->prepare($query);
+            
+            // Clean data
+            $this->id = htmlspecialchars(strip_tags($this->id));
+
+            // bind data
+            $stmt->bindParam(':id', $this->id);
+
+            // execute query
+            if($stmt->execute()) {
+                return true;
+            } 
+
+            // Print error if something goes wrong
+            printf('Error: %s.\n', $stmt->error);
+
+            return false;
+        }
+
     }
